@@ -1,0 +1,668 @@
+\hypertarget{filesys_8c}{}\doxysection{filesys.\+c File Reference}
+\label{filesys_8c}\index{filesys.c@{filesys.c}}
+
+
+An implementation of the filesystem API.  
+
+
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$sys/mman.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}filesys.\+h\char`\"{}}\newline
+Include dependency graph for filesys.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesys_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structentry}{entry}}
+\begin{DoxyCompactList}\small\item\em A directory entry struct type. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structpath}{path}}
+\begin{DoxyCompactList}\small\item\em An absolute path struct type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{filesys_8c_a24136c1cd16196df1c206cde2c743076}\label{filesys_8c_a24136c1cd16196df1c206cde2c743076}} 
+\#define \mbox{\hyperlink{filesys_8c_a24136c1cd16196df1c206cde2c743076}{FREE\+\_\+\+BLOCK}}~0x0000
+\begin{DoxyCompactList}\small\item\em Indicates a block is free in the FAT. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_aa785f15b65ac288516c33984e07fdb2f}\label{filesys_8c_aa785f15b65ac288516c33984e07fdb2f}} 
+\#define \mbox{\hyperlink{filesys_8c_aa785f15b65ac288516c33984e07fdb2f}{LAST\+\_\+\+BLOCK}}~0x\+FFFF
+\begin{DoxyCompactList}\small\item\em Indicates the last block of a file in the FAT. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a3ad3cf09a60dd3c101bfa9ed7ea9b13d}\label{filesys_8c_a3ad3cf09a60dd3c101bfa9ed7ea9b13d}} 
+\#define \mbox{\hyperlink{filesys_8c_a3ad3cf09a60dd3c101bfa9ed7ea9b13d}{SKIP\+\_\+\+NONE}}~0x00
+\begin{DoxyCompactList}\small\item\em Indicates that links should not be followed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a7155d80640e4fca8ec0f3bb3dbf167fe}\label{filesys_8c_a7155d80640e4fca8ec0f3bb3dbf167fe}} 
+\#define \mbox{\hyperlink{filesys_8c_a7155d80640e4fca8ec0f3bb3dbf167fe}{SKIP\+\_\+\+TO\+\_\+\+LAST}}~0x01
+\begin{DoxyCompactList}\small\item\em Indicates that links should be followed until the next link leads to a non-\/existent file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a446191962c3922a58d6177c9956e78f2}\label{filesys_8c_a446191962c3922a58d6177c9956e78f2}} 
+\#define \mbox{\hyperlink{filesys_8c_a446191962c3922a58d6177c9956e78f2}{SKIP\+\_\+\+ALL}}~0x02
+\begin{DoxyCompactList}\small\item\em Indicates that all links should be followed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}\label{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}} 
+typedef struct \mbox{\hyperlink{structentry}{entry}} \mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}}
+\begin{DoxyCompactList}\small\item\em A directory entry struct type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_ad6b5cc77370cf1e7e44aaf48186c2ce2}\label{filesys_8c_ad6b5cc77370cf1e7e44aaf48186c2ce2}} 
+typedef struct \mbox{\hyperlink{structpath}{path}} \mbox{\hyperlink{filesys_8c_ad6b5cc77370cf1e7e44aaf48186c2ce2}{Path}}
+\begin{DoxyCompactList}\small\item\em An absolute path struct type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{filesys_8c_ad6b5cc77370cf1e7e44aaf48186c2ce2}{Path}} \mbox{\hyperlink{filesys_8c_aef74d2d7ed1538a700d54d159f14d4c4}{split\+\_\+path}} (char $\ast$path\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Split a parsed absolute path string into a Path struct type. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a3e47c84a5fe5eac53406f9b83e88577a}{extend\+\_\+data}} (int block)
+\begin{DoxyCompactList}\small\item\em Reserve and return a block to follow {\ttfamily block} in the FAT. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_aa65f2c33d5414a91da037d875c837749}{seek\+\_\+data}} (int position, int offset)
+\begin{DoxyCompactList}\small\item\em Get position which is logical offset bytes ahead of input position. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_acb42add8626006d12887ccf16390929d}{write\+\_\+data}} (int position, uint8\+\_\+t $\ast$buf, int size)
+\begin{DoxyCompactList}\small\item\em Write {\ttfamily size} data from {\ttfamily buf} beginning at {\ttfamily position}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a14731e00bb47d36015f5e6c14671d163}{read\+\_\+data}} (int position, uint8\+\_\+t $\ast$buf, int size)
+\begin{DoxyCompactList}\small\item\em Reads {\ttfamily size} bytes into {\ttfamily buf}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{filesys_8c_afbfdd97d870dae0d347036734e166650}{truncate\+\_\+data}} (int block)
+\begin{DoxyCompactList}\small\item\em Free data blocks in logically contiguous manner beginning at block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a210981a5898bedc6d01a68054ed6796a}{space\+\_\+directory}} (int block)
+\begin{DoxyCompactList}\small\item\em Find size of directory with entries beginning at {\ttfamily block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} $\ast$ \mbox{\hyperlink{filesys_8c_a51bf07b4191e1ec2365bfe5441fc104b}{enum\+\_\+directory}} (int block)
+\begin{DoxyCompactList}\small\item\em Enumerate all file slots in a directory beginning at {\ttfamily block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} \mbox{\hyperlink{filesys_8c_a4a46efc0e2d1dee4e394f09d54cc3e14}{find\+\_\+directory}} (char $\ast$$\ast$dir)
+\begin{DoxyCompactList}\small\item\em Find entry corresponding to the sequence of nested directories {\ttfamily dir}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} \mbox{\hyperlink{filesys_8c_a88b57bc8ffbdc8df74e8dcf66da8dd0b}{find\+\_\+file}} (char $\ast$name, int block, int skip\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Find file {\ttfamily name} in directory beginning at {\ttfamily block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} \mbox{\hyperlink{filesys_8c_a6afdd4856856611927f4524a0456aee1}{init\+\_\+file}} (char $\ast$name, uint8\+\_\+t type)
+\begin{DoxyCompactList}\small\item\em Initialize an empty file with given name and type. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_af49d451cd513e46e32a9cd06749207e2}{add\+\_\+file}} (\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} f, int block)
+\begin{DoxyCompactList}\small\item\em Add file {\ttfamily f} to the directory beginning at {\ttfamily block}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a43455661b5b556249ca88705b1ea796c}{init\+\_\+fs}} (char $\ast$fs, int new\+\_\+fat\+\_\+blocks, int new\+\_\+block\+\_\+size\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Initialize filesystem given by {\ttfamily fs} string with given config information. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a4e89e3a6e6db0052f96579ebdcf2f99f}{mount\+\_\+fs}} (char $\ast$fs)
+\begin{DoxyCompactList}\small\item\em Mount filesystem given by {\ttfamily fs} string. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_ac7415d9bdaf9d1e3616d8bcccc6e8a2c}{unmount\+\_\+fs}} ()
+\begin{DoxyCompactList}\small\item\em Unmount the currently mounted filesystem. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a0ff3688c7ac8202c7116dcd0def71525}{create\+\_\+file}} (char $\ast$path\+\_\+str, uint8\+\_\+t type)
+\begin{DoxyCompactList}\small\item\em Creates file at {\ttfamily path\+\_\+str} and type {\ttfamily type} if it doesn\textquotesingle{}t already exist. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_ae4fe74267fedab0315b69acf0a3ce516}{set\+\_\+file}} (char $\ast$path\+\_\+str, \mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} f, bool skip\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Sets file metadata to {\ttfamily f} in directory entry at {\ttfamily path\+\_\+str}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} \mbox{\hyperlink{filesys_8c_a1cbadf04f0cbc5b52b16f99edf2d68ad}{get\+\_\+file}} (char $\ast$path\+\_\+str, bool skip\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Gets file metadata from directory entry at {\ttfamily path\+\_\+str}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a8237c2856014860ac5ff8cd56d1127e6}{read\+\_\+file}} (char $\ast$path\+\_\+str, int offset, uint8\+\_\+t $\ast$buf, int size)
+\begin{DoxyCompactList}\small\item\em Reads {\ttfamily size} bytes into {\ttfamily buf} beginning at {\ttfamily offset} in file located at {\ttfamily path\+\_\+str}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a4256530f3bc48800190524491e9cdade}{write\+\_\+file}} (char $\ast$path\+\_\+str, int offset, uint8\+\_\+t $\ast$buf, int size, bool skip\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Writes {\ttfamily size} bytes from {\ttfamily buf} beginning at {\ttfamily offset} into file located at {\ttfamily path\+\_\+str}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a895e81317ab41a2e1ee32d481d38dacd}{truncate\+\_\+file}} (char $\ast$path\+\_\+str, bool skip\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Set size of file at {\ttfamily path\+\_\+str} to zero and free all of its allocated blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a686a9a9e9fc0cee0736ec68f8cf72139}{remove\+\_\+file}} (char $\ast$path\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Remove file at {\ttfamily path\+\_\+str}\textquotesingle{}s directory entry. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_ad2e5b80866123b9ef4b22c699827bbee}{cleanup\+\_\+file}} (int position)
+\begin{DoxyCompactList}\small\item\em Indicate that a deleted file\textquotesingle{}s data has been cleaned up. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} $\ast$ \mbox{\hyperlink{filesys_8c_a08a018e177bf3b5f890c9c1507f36a36}{list\+\_\+directory}} (char $\ast$path\+\_\+str)
+\begin{DoxyCompactList}\small\item\em List the files in directory at {\ttfamily path\+\_\+str}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{filesys_8c_a64b57b29bcc87a7b1967c7d55e7d4212}\label{filesys_8c_a64b57b29bcc87a7b1967c7d55e7d4212}} 
+int \mbox{\hyperlink{filesys_8c_a64b57b29bcc87a7b1967c7d55e7d4212}{fs\+\_\+fd}}
+\begin{DoxyCompactList}\small\item\em Filesystem file descriptor on host. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a0e52a1a113ded7f4787290edc22ad954}\label{filesys_8c_a0e52a1a113ded7f4787290edc22ad954}} 
+uint16\+\_\+t $\ast$ \mbox{\hyperlink{filesys_8c_a0e52a1a113ded7f4787290edc22ad954}{fat}}
+\begin{DoxyCompactList}\small\item\em Memory-\/mapped FAT. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a70b27761c7d0bd5cd90f4fe47e569b94}\label{filesys_8c_a70b27761c7d0bd5cd90f4fe47e569b94}} 
+int \mbox{\hyperlink{filesys_8c_a70b27761c7d0bd5cd90f4fe47e569b94}{block\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em Block size in bytes. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_ae97a1746d0470fc39b62b91c00897e53}\label{filesys_8c_ae97a1746d0470fc39b62b91c00897e53}} 
+int \mbox{\hyperlink{filesys_8c_ae97a1746d0470fc39b62b91c00897e53}{fat\+\_\+blocks}}
+\begin{DoxyCompactList}\small\item\em Number of blocks in FAT. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{filesys_8c_a99c5e0ed941cbbc839ae0398a66f33d1}{data\+\_\+blocks}}
+\begin{DoxyCompactList}\small\item\em Number of data blocks. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_a7f8f3afb14a54cd5545bbd1da86ed003}\label{filesys_8c_a7f8f3afb14a54cd5545bbd1da86ed003}} 
+\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} \mbox{\hyperlink{filesys_8c_a7f8f3afb14a54cd5545bbd1da86ed003}{root}}
+\begin{DoxyCompactList}\small\item\em Entry representing the root directory. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{filesys_8c_add2102dbd3148edfd62926bcb74c0fe1}\label{filesys_8c_add2102dbd3148edfd62926bcb74c0fe1}} 
+\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} \mbox{\hyperlink{filesys_8c_add2102dbd3148edfd62926bcb74c0fe1}{eod}} = (\mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}}) \{ (\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}}) \{ \char`\"{}\char`\"{}, 0, 0, \mbox{\hyperlink{filesys_8h_acb8de13f0b4eb85d360f1baa211a3686}{UNKNOWN\+\_\+\+FILE}}, 0, 0 \}, -\/1 \}
+\begin{DoxyCompactList}\small\item\em Entry representing EOD. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An implementation of the filesystem API. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{filesys_8c_af49d451cd513e46e32a9cd06749207e2}\label{filesys_8c_af49d451cd513e46e32a9cd06749207e2}} 
+\index{filesys.c@{filesys.c}!add\_file@{add\_file}}
+\index{add\_file@{add\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{add\_file()}{add\_file()}}
+{\footnotesize\ttfamily int add\+\_\+file (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}}}]{f,  }\item[{int}]{block }\end{DoxyParamCaption})}
+
+
+
+Add file {\ttfamily f} to the directory beginning at {\ttfamily block}. 
+
+Important invariant\+: directory is always terminated by an EOD file. Throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+Position of newly added file in fs\+\_\+fd or -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em f} & The file to add. \\
+\hline
+{\em block} & The first block containing entries in the directory. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_ad2e5b80866123b9ef4b22c699827bbee}\label{filesys_8c_ad2e5b80866123b9ef4b22c699827bbee}} 
+\index{filesys.c@{filesys.c}!cleanup\_file@{cleanup\_file}}
+\index{cleanup\_file@{cleanup\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{cleanup\_file()}{cleanup\_file()}}
+{\footnotesize\ttfamily int cleanup\+\_\+file (\begin{DoxyParamCaption}\item[{int}]{position }\end{DoxyParamCaption})}
+
+
+
+Indicate that a deleted file\textquotesingle{}s data has been cleaned up. 
+
+Sets {\ttfamily name\mbox{[}0\mbox{]}} of the entry to {\ttfamily CLEANED\+\_\+\+FLAG}. TODO\+: implement the following sentence. This allows the directory to reclaim the entry as the {\ttfamily first\+\_\+block} pointer is no longer needed. Note that working with raw positions is necessary because deleting a file corrupts its name field and hence we can no longer access it with the other methods.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Position of directory entry to indicate has been cleaned up. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a0ff3688c7ac8202c7116dcd0def71525}\label{filesys_8c_a0ff3688c7ac8202c7116dcd0def71525}} 
+\index{filesys.c@{filesys.c}!create\_file@{create\_file}}
+\index{create\_file@{create\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{create\_file()}{create\_file()}}
+{\footnotesize\ttfamily int create\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{uint8\+\_\+t}]{type }\end{DoxyParamCaption})}
+
+
+
+Creates file at {\ttfamily path\+\_\+str} and type {\ttfamily type} if it doesn\textquotesingle{}t already exist. 
+
+If a directory along the path to the file cannot be found throws an {\ttfamily ENOENT} error. If a token along the path to the file is not a directory throws an {\ttfamily ENOTDIR} error. On any permissions error throws {\ttfamily EACCES}. Directory needs write permissions. On success, directory {\ttfamily size} containing file is increased and {\ttfamily mtime} is updated. If the file is not a link and already exists or is a link and points to an existing file throws an {\ttfamily EEXIST} error. If the file is a link and points to a file which doesn\textquotesingle{}t exist that file will be created instead as a regular file.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to create file at. \\
+\hline
+{\em path\+\_\+str} & Type of file to create. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a51bf07b4191e1ec2365bfe5441fc104b}\label{filesys_8c_a51bf07b4191e1ec2365bfe5441fc104b}} 
+\index{filesys.c@{filesys.c}!enum\_directory@{enum\_directory}}
+\index{enum\_directory@{enum\_directory}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{enum\_directory()}{enum\_directory()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}}$\ast$ enum\+\_\+directory (\begin{DoxyParamCaption}\item[{int}]{block }\end{DoxyParamCaption})}
+
+
+
+Enumerate all file slots in a directory beginning at {\ttfamily block}. 
+
+File slots include deleted files.
+
+\begin{DoxyReturn}{Returns}
+A sequence of file slots terminated by an EOD file. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block} & The first block containing directory entries. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a3e47c84a5fe5eac53406f9b83e88577a}\label{filesys_8c_a3e47c84a5fe5eac53406f9b83e88577a}} 
+\index{filesys.c@{filesys.c}!extend\_data@{extend\_data}}
+\index{extend\_data@{extend\_data}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{extend\_data()}{extend\_data()}}
+{\footnotesize\ttfamily int extend\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{block }\end{DoxyParamCaption})}
+
+
+
+Reserve and return a block to follow {\ttfamily block} in the FAT. 
+
+If block is nonzero sets {\ttfamily fat\mbox{[}block\mbox{]} = new\+\_\+block}. Zeroes out any newly allocated memory (directory assumes this!) Note\+: need to call fsync(fs\+\_\+fd) after any fat write. Throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+The new block on success or -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block} & The block to extend a file from or 0 to simply reserve a block. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a4a46efc0e2d1dee4e394f09d54cc3e14}\label{filesys_8c_a4a46efc0e2d1dee4e394f09d54cc3e14}} 
+\index{filesys.c@{filesys.c}!find\_directory@{find\_directory}}
+\index{find\_directory@{find\_directory}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{find\_directory()}{find\_directory()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} find\+\_\+directory (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{dir }\end{DoxyParamCaption})}
+
+
+
+Find entry corresponding to the sequence of nested directories {\ttfamily dir}. 
+
+If {\ttfamily dir\mbox{[}0\mbox{]} = NULL} this indicates an empty path and we return {\ttfamily root}. Returns immediately on error if can\textquotesingle{}t find entry, entry is not a directory, or entry doesn\textquotesingle{}t have execute permissions. Sets errno appropriately.
+
+\begin{DoxyReturn}{Returns}
+The entry of the directory or an EOD file on error. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em dir} & A null terminated sequence of nested directories. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a88b57bc8ffbdc8df74e8dcf66da8dd0b}\label{filesys_8c_a88b57bc8ffbdc8df74e8dcf66da8dd0b}} 
+\index{filesys.c@{filesys.c}!find\_file@{find\_file}}
+\index{find\_file@{find\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{find\_file()}{find\_file()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8c_aaa21d050a89c52467a1bea7b9009ceae}{Entry}} find\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{name,  }\item[{int}]{block,  }\item[{int}]{skip\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Find file {\ttfamily name} in directory beginning at {\ttfamily block}. 
+
+If name is empty we return the first deleted or EOD entry we encounter. If name is nonempty we search for a file with the given name. Returns an EOD file if the file is not found. If {\ttfamily skip\+\_\+flag} is {\ttfamily SKIP\+\_\+\+ALL} we recurse upon finding a link file. If {\ttfamily skip\+\_\+flag} is {\ttfamily SKIP\+\_\+\+NONE} we return link files immedaitely. If {\ttfamily skip\+\_\+flag} is {\ttfamily SKIP\+\_\+\+TO\+\_\+\+LAST} we recurse unless the link points to a non-\/existant file.
+
+\begin{DoxyReturn}{Returns}
+The requested file or an EOD file if it is not found. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the file. \\
+\hline
+{\em block} & The first block containing entries in the directory to search. \\
+\hline
+{\em skip\+\_\+flag} & A macro indicating how to handle link files. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a1cbadf04f0cbc5b52b16f99edf2d68ad}\label{filesys_8c_a1cbadf04f0cbc5b52b16f99edf2d68ad}} 
+\index{filesys.c@{filesys.c}!get\_file@{get\_file}}
+\index{get\_file@{get\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{get\_file()}{get\_file()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} get\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{bool}]{skip\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Gets file metadata from directory entry at {\ttfamily path\+\_\+str}. 
+
+If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. On any permissions error throws {\ttfamily EACCES}. If {\ttfamily skip\+\_\+flag} is false and {\ttfamily path\+\_\+str} leads to a link the link\textquotesingle{}s metadata is returned. If instead {\ttfamily skip\+\_\+flag} is true the file pointed to by such a link will have its metadata returned.
+
+\begin{DoxyReturn}{Returns}
+An EOD entry on failure and the file metadata on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to get metadata from. \\
+\hline
+{\em skip\+\_\+flag} & If the target file is a link, should it be followed? \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a6afdd4856856611927f4524a0456aee1}\label{filesys_8c_a6afdd4856856611927f4524a0456aee1}} 
+\index{filesys.c@{filesys.c}!init\_file@{init\_file}}
+\index{init\_file@{init\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{init\_file()}{init\_file()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}} init\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{name,  }\item[{uint8\+\_\+t}]{type }\end{DoxyParamCaption})}
+
+
+
+Initialize an empty file with given name and type. 
+
+If creating a directory we also allocate a block for it to maintain the invariant that every directory ends at an EOD file. Throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+The newly created file or an EOD file if no space left. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the file. \\
+\hline
+{\em type} & The file type, see macros in \mbox{\hyperlink{filesys_8h}{filesys.\+h}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a43455661b5b556249ca88705b1ea796c}\label{filesys_8c_a43455661b5b556249ca88705b1ea796c}} 
+\index{filesys.c@{filesys.c}!init\_fs@{init\_fs}}
+\index{init\_fs@{init\_fs}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{init\_fs()}{init\_fs()}}
+{\footnotesize\ttfamily int init\+\_\+fs (\begin{DoxyParamCaption}\item[{char $\ast$}]{fs,  }\item[{int}]{new\+\_\+fat\+\_\+blocks,  }\item[{int}]{new\+\_\+block\+\_\+size\+\_\+config }\end{DoxyParamCaption})}
+
+
+
+Initialize filesystem given by {\ttfamily fs} string with given config information. 
+
+Set {\ttfamily new\+\_\+block\+\_\+size = 2$^\wedge$\{8 + new\+\_\+block\+\_\+size\+\_\+config\}}. FAT takes up {\ttfamily new\+\_\+fat\+\_\+blocks $\ast$ block\+\_\+size} bytes. Then {\ttfamily new\+\_\+fat\+\_\+entries} is this divided by 2 minus 1 entries (each block pointer is 2 bytes, first slot is config info). Then the data region has size {\ttfamily new\+\_\+fat\+\_\+entries $\ast$ block\+\_\+size} bytes unless {\ttfamily new\+\_\+fat\+\_\+entries $>$= LAST\+\_\+\+BLOCK} in which case we cap the size of the data region as {\ttfamily LAST\+\_\+\+BLOCK -\/ 1}. Throws an error if fs refers to the currently open filesystem.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & The name of the file to contain the filesystem on the host machine. \\
+\hline
+{\em new\+\_\+fat\+\_\+blocks} & The number of fat blocks in the new filesystem. \\
+\hline
+{\em new\+\_\+block\+\_\+size\+\_\+config} & A value representing the block size of the filesystem. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a08a018e177bf3b5f890c9c1507f36a36}\label{filesys_8c_a08a018e177bf3b5f890c9c1507f36a36}} 
+\index{filesys.c@{filesys.c}!list\_directory@{list\_directory}}
+\index{list\_directory@{list\_directory}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{list\_directory()}{list\_directory()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}}$\ast$ list\+\_\+directory (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str }\end{DoxyParamCaption})}
+
+
+
+List the files in directory at {\ttfamily path\+\_\+str}. 
+
+Only lists non-\/deleted and non-\/\+EOD files. Last file in list is an EOD file. If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. If the file is not a directory throws an {\ttfamily ENOTDIR} error. On any permissions error throws an {\ttfamily EACCES}. Directory needs read permissions.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Position of directory entry to indicate has been cleaned up. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a4e89e3a6e6db0052f96579ebdcf2f99f}\label{filesys_8c_a4e89e3a6e6db0052f96579ebdcf2f99f}} 
+\index{filesys.c@{filesys.c}!mount\_fs@{mount\_fs}}
+\index{mount\_fs@{mount\_fs}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{mount\_fs()}{mount\_fs()}}
+{\footnotesize\ttfamily int mount\+\_\+fs (\begin{DoxyParamCaption}\item[{char $\ast$}]{fs }\end{DoxyParamCaption})}
+
+
+
+Mount filesystem given by {\ttfamily fs} string. 
+
+Fails if the file cannot be opened. Initializes lots of global variables such as {\ttfamily fat} and the config information.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & The name of the file containing the filesystem on the host machine to mount. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a14731e00bb47d36015f5e6c14671d163}\label{filesys_8c_a14731e00bb47d36015f5e6c14671d163}} 
+\index{filesys.c@{filesys.c}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily int read\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{position,  }\item[{uint8\+\_\+t $\ast$}]{buf,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Reads {\ttfamily size} bytes into {\ttfamily buf}. 
+
+Read in logically contiguous manner beginning at position.
+
+\begin{DoxyReturn}{Returns}
+Number of bytes read on success and -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The position to begin from. \\
+\hline
+{\em buf} & Buffer to write from. \\
+\hline
+{\em size} & Number of bytes to write. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a8237c2856014860ac5ff8cd56d1127e6}\label{filesys_8c_a8237c2856014860ac5ff8cd56d1127e6}} 
+\index{filesys.c@{filesys.c}!read\_file@{read\_file}}
+\index{read\_file@{read\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{read\_file()}{read\_file()}}
+{\footnotesize\ttfamily int read\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{int}]{offset,  }\item[{uint8\+\_\+t $\ast$}]{buf,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Reads {\ttfamily size} bytes into {\ttfamily buf} beginning at {\ttfamily offset} in file located at {\ttfamily path\+\_\+str}. 
+
+If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. If the file is a directory throws an {\ttfamily EISDIR} error. On any permissions error throws {\ttfamily EACCES}. File needs read permissions. Extends file if offset goes beyond current size.
+
+\begin{DoxyReturn}{Returns}
+The number of bytes read on success and -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to read from. \\
+\hline
+{\em offset} & Logical offset to begin reading from in the file. \\
+\hline
+{\em buf} & Buffer to read data into. \\
+\hline
+{\em size} & Number of bytes to read. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a686a9a9e9fc0cee0736ec68f8cf72139}\label{filesys_8c_a686a9a9e9fc0cee0736ec68f8cf72139}} 
+\index{filesys.c@{filesys.c}!remove\_file@{remove\_file}}
+\index{remove\_file@{remove\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{remove\_file()}{remove\_file()}}
+{\footnotesize\ttfamily int remove\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str }\end{DoxyParamCaption})}
+
+
+
+Remove file at {\ttfamily path\+\_\+str}\textquotesingle{}s directory entry. 
+
+Sets {\ttfamily name\mbox{[}0\mbox{]}} to {\ttfamily REMOVED\+\_\+\+FLAG} indicating that the file is deleted but may have its data still in use. If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. On any permissions error throws {\ttfamily EACCES}. Directory needs write permissions. The file\textquotesingle{}s data is not cleaned up, use {\ttfamily truncate\+\_\+file} for that. On success, directory {\ttfamily size} containing file is reduced and {\ttfamily mtime} is updated. Returns the position of the file on success for later cleanup. TODO\+: what if file is deleted and overwritten? how will other processes using the file be able to see its data? need to not overwrite if entry is 2!!!
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and position of deleted file on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to remove. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_aa65f2c33d5414a91da037d875c837749}\label{filesys_8c_aa65f2c33d5414a91da037d875c837749}} 
+\index{filesys.c@{filesys.c}!seek\_data@{seek\_data}}
+\index{seek\_data@{seek\_data}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{seek\_data()}{seek\_data()}}
+{\footnotesize\ttfamily int seek\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{position,  }\item[{int}]{offset }\end{DoxyParamCaption})}
+
+
+
+Get position which is logical offset bytes ahead of input position. 
+
+Terminology\+: position =$>$ physical location in fs\+\_\+fd, offset =$>$ number of logical bytes. If the end of the current file is reached seek\+\_\+data extends the file. Input logical offset must be non-\/negative. Throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+The position which is reached or -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The position to begin from. \\
+\hline
+{\em offset} & Logical offset size. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_ae4fe74267fedab0315b69acf0a3ce516}\label{filesys_8c_ae4fe74267fedab0315b69acf0a3ce516}} 
+\index{filesys.c@{filesys.c}!set\_file@{set\_file}}
+\index{set\_file@{set\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{set\_file()}{set\_file()}}
+{\footnotesize\ttfamily int set\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{\mbox{\hyperlink{filesys_8h_ae2097d8905c595503ce7541623017d5f}{File}}}]{f,  }\item[{bool}]{skip\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Sets file metadata to {\ttfamily f} in directory entry at {\ttfamily path\+\_\+str}. 
+
+If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. On any permissions error throws {\ttfamily EACCES}. If {\ttfamily skip\+\_\+flag} is false and {\ttfamily path\+\_\+str} leads to a link the link will have its own metadata set. If instead {\ttfamily skip\+\_\+flag} is true the file pointed to by such a link will be set.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to set metadata of. \\
+\hline
+{\em f} & New metadata entry which will be set. \\
+\hline
+{\em skip\+\_\+flag} & If the target file is a link, should it be followed? \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a210981a5898bedc6d01a68054ed6796a}\label{filesys_8c_a210981a5898bedc6d01a68054ed6796a}} 
+\index{filesys.c@{filesys.c}!space\_directory@{space\_directory}}
+\index{space\_directory@{space\_directory}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{space\_directory()}{space\_directory()}}
+{\footnotesize\ttfamily int space\+\_\+directory (\begin{DoxyParamCaption}\item[{int}]{block }\end{DoxyParamCaption})}
+
+
+
+Find size of directory with entries beginning at {\ttfamily block}. 
+
+Note {\ttfamily block} is FAT-\/addressed so there is an additional offset due to the FAT table. That is, block 1 corresponds to the first block after the FAT table and so on. Size includes deleted files and one EOD file.
+
+\begin{DoxyReturn}{Returns}
+The number of file slots in the directory including the EOD file. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block} & The first block containing directory entries. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_aef74d2d7ed1538a700d54d159f14d4c4}\label{filesys_8c_aef74d2d7ed1538a700d54d159f14d4c4}} 
+\index{filesys.c@{filesys.c}!split\_path@{split\_path}}
+\index{split\_path@{split\_path}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{split\_path()}{split\_path()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{filesys_8c_ad6b5cc77370cf1e7e44aaf48186c2ce2}{Path}} split\+\_\+path (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str }\end{DoxyParamCaption})}
+
+
+
+Split a parsed absolute path string into a Path struct type. 
+
+Dot and dot-\/dot are not supported. \begin{DoxyReturn}{Returns}
+A path struct. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & A parsed absolute path string. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_afbfdd97d870dae0d347036734e166650}\label{filesys_8c_afbfdd97d870dae0d347036734e166650}} 
+\index{filesys.c@{filesys.c}!truncate\_data@{truncate\_data}}
+\index{truncate\_data@{truncate\_data}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{truncate\_data()}{truncate\_data()}}
+{\footnotesize\ttfamily void truncate\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{block }\end{DoxyParamCaption})}
+
+
+
+Free data blocks in logically contiguous manner beginning at block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em block} & The block to begin freeing from. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a895e81317ab41a2e1ee32d481d38dacd}\label{filesys_8c_a895e81317ab41a2e1ee32d481d38dacd}} 
+\index{filesys.c@{filesys.c}!truncate\_file@{truncate\_file}}
+\index{truncate\_file@{truncate\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{truncate\_file()}{truncate\_file()}}
+{\footnotesize\ttfamily int truncate\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{bool}]{skip\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Set size of file at {\ttfamily path\+\_\+str} to zero and free all of its allocated blocks. 
+
+If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. If file is a directory and is non-\/empty throws an {\ttfamily ENOTEMPTY} error. On any permissions error throws {\ttfamily EACCES}. File and directory need write permissions. On success updates {\ttfamily size}, and {\ttfamily first\+\_\+block} fields of file metadata accordingly.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to truncate. \\
+\hline
+{\em skip\+\_\+flag} & If the target file is a link, should we follow it? \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_ac7415d9bdaf9d1e3616d8bcccc6e8a2c}\label{filesys_8c_ac7415d9bdaf9d1e3616d8bcccc6e8a2c}} 
+\index{filesys.c@{filesys.c}!unmount\_fs@{unmount\_fs}}
+\index{unmount\_fs@{unmount\_fs}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{unmount\_fs()}{unmount\_fs()}}
+{\footnotesize\ttfamily int unmount\+\_\+fs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unmount the currently mounted filesystem. 
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{filesys_8c_acb42add8626006d12887ccf16390929d}\label{filesys_8c_acb42add8626006d12887ccf16390929d}} 
+\index{filesys.c@{filesys.c}!write\_data@{write\_data}}
+\index{write\_data@{write\_data}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{write\_data()}{write\_data()}}
+{\footnotesize\ttfamily int write\+\_\+data (\begin{DoxyParamCaption}\item[{int}]{position,  }\item[{uint8\+\_\+t $\ast$}]{buf,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Write {\ttfamily size} data from {\ttfamily buf} beginning at {\ttfamily position}. 
+
+Written in logically contiguous manner beginning at position. Will extend file if {\ttfamily LAST\+\_\+\+BLOCK} is reached. Throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+-\/1 on failure and 0 on success. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The position to begin from. \\
+\hline
+{\em buf} & Buffer to write from. \\
+\hline
+{\em size} & Number of bytes to write. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{filesys_8c_a4256530f3bc48800190524491e9cdade}\label{filesys_8c_a4256530f3bc48800190524491e9cdade}} 
+\index{filesys.c@{filesys.c}!write\_file@{write\_file}}
+\index{write\_file@{write\_file}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{write\_file()}{write\_file()}}
+{\footnotesize\ttfamily int write\+\_\+file (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+\_\+str,  }\item[{int}]{offset,  }\item[{uint8\+\_\+t $\ast$}]{buf,  }\item[{int}]{size,  }\item[{bool}]{skip\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Writes {\ttfamily size} bytes from {\ttfamily buf} beginning at {\ttfamily offset} into file located at {\ttfamily path\+\_\+str}. 
+
+If the file cannot be located throws an {\ttfamily ENOENT} or {\ttfamily ENOTDIR} error. If the file is a directory throws an {\ttfamily EISDIR} error. On any permissions error throws {\ttfamily EACCES}. File and directory need write permissions. Updates {\ttfamily mtime}, {\ttfamily size}, and possibly {\ttfamily first\+\_\+block} fields of file metadata. Also throws an error if no space left.
+
+\begin{DoxyReturn}{Returns}
+The number of bytes written on success and -\/1 on failure. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path\+\_\+str} & Path to file to write to. \\
+\hline
+{\em offset} & Logical offset to begin writing into the file from. \\
+\hline
+{\em buf} & Buffer to write data from. \\
+\hline
+{\em size} & Number of bytes to write. \\
+\hline
+{\em skip\+\_\+flag} & If the target file is a link, should it be followed? \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{filesys_8c_a99c5e0ed941cbbc839ae0398a66f33d1}\label{filesys_8c_a99c5e0ed941cbbc839ae0398a66f33d1}} 
+\index{filesys.c@{filesys.c}!data\_blocks@{data\_blocks}}
+\index{data\_blocks@{data\_blocks}!filesys.c@{filesys.c}}
+\doxysubsubsection{\texorpdfstring{data\_blocks}{data\_blocks}}
+{\footnotesize\ttfamily int data\+\_\+blocks}
+
+
+
+Number of data blocks. 
+
+1-\/indexed in FAT as {\ttfamily fat\mbox{[}0\mbox{]}} stores filesystem configuration information. Maximum index is {\ttfamily LAST\+\_\+\+BLOCK -\/ 1 = 0xfffe}. 

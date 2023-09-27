@@ -1,0 +1,4 @@
+.vscode/
+fs/myfs
+logfile.txt
+*.o

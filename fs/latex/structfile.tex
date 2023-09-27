@@ -1,0 +1,79 @@
+\hypertarget{structfile}{}\doxysection{file Struct Reference}
+\label{structfile}\index{file@{file}}
+
+
+A file struct type as specified in the Penn\+OS writeup.  
+
+
+
+
+{\ttfamily \#include $<$filesys.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structfile_a5af7f96e3816db3d2f7553c54785e24c}{name}} \mbox{[}32\mbox{]}
+\begin{DoxyCompactList}\small\item\em File name string (null terminated). See macros above for special marker meanings. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structfile_a96ae0bd475ec5e6aa825aef6acfb3574}{size}}
+\begin{DoxyCompactList}\small\item\em Number of bytes in the file. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structfile_a4935f0efae9cbade340d3db2012308bd}{first\+\_\+block}}
+\begin{DoxyCompactList}\small\item\em First block number of the file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structfile_aff46f81e61b47c220f05e94a3d786e54}\label{structfile_aff46f81e61b47c220f05e94a3d786e54}} 
+uint8\+\_\+t \mbox{\hyperlink{structfile_aff46f81e61b47c220f05e94a3d786e54}{type}}
+\begin{DoxyCompactList}\small\item\em File type indicator. See macros above. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structfile_ab9d7bbff8a9c1a5ef10543ecc7ca9eab}\label{structfile_ab9d7bbff8a9c1a5ef10543ecc7ca9eab}} 
+uint8\+\_\+t \mbox{\hyperlink{structfile_ab9d7bbff8a9c1a5ef10543ecc7ca9eab}{perm}}
+\begin{DoxyCompactList}\small\item\em File permissions mode. See macros above. \end{DoxyCompactList}\item 
+time\+\_\+t \mbox{\hyperlink{structfile_a7b72869346a12d1d8f1934a31ae5e345}{mtime}}
+\begin{DoxyCompactList}\small\item\em Last creation/modification time as returned by time(2) in Linux. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A file struct type as specified in the Penn\+OS writeup. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structfile_a4935f0efae9cbade340d3db2012308bd}\label{structfile_a4935f0efae9cbade340d3db2012308bd}} 
+\index{file@{file}!first\_block@{first\_block}}
+\index{first\_block@{first\_block}!file@{file}}
+\doxysubsubsection{\texorpdfstring{first\_block}{first\_block}}
+{\footnotesize\ttfamily uint16\+\_\+t file\+::first\+\_\+block}
+
+
+
+First block number of the file. 
+
+Equal to LAST\+\_\+\+BLOCK if size is zero. \mbox{\Hypertarget{structfile_a7b72869346a12d1d8f1934a31ae5e345}\label{structfile_a7b72869346a12d1d8f1934a31ae5e345}} 
+\index{file@{file}!mtime@{mtime}}
+\index{mtime@{mtime}!file@{file}}
+\doxysubsubsection{\texorpdfstring{mtime}{mtime}}
+{\footnotesize\ttfamily time\+\_\+t file\+::mtime}
+
+
+
+Last creation/modification time as returned by time(2) in Linux. 
+
+TODO\+: decide exactly when time should be updated. \mbox{\Hypertarget{structfile_a5af7f96e3816db3d2f7553c54785e24c}\label{structfile_a5af7f96e3816db3d2f7553c54785e24c}} 
+\index{file@{file}!name@{name}}
+\index{name@{name}!file@{file}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char file\+::name\mbox{[}32\mbox{]}}
+
+
+
+File name string (null terminated). See macros above for special marker meanings. 
+
+name\mbox{[}0\mbox{]} is also a special marker\+: 0 =$>$ end of directory. 1 =$>$ deleted entry, file also deleted. 2 =$>$ deleted entry, file still exists. \mbox{\Hypertarget{structfile_a96ae0bd475ec5e6aa825aef6acfb3574}\label{structfile_a96ae0bd475ec5e6aa825aef6acfb3574}} 
+\index{file@{file}!size@{size}}
+\index{size@{size}!file@{file}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily uint32\+\_\+t file\+::size}
+
+
+
+Number of bytes in the file. 
+
+If the file is a directory is equal to (File struct size) $\ast$ (Number of non-\/deleted files) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{filesys_8h}{filesys.\+h}}\end{DoxyCompactItemize}

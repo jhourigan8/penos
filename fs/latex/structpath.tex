@@ -1,0 +1,45 @@
+\hypertarget{structpath}{}\doxysection{path Struct Reference}
+\label{structpath}\index{path@{path}}
+
+
+An absolute path struct type.  
+
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$$\ast$ \mbox{\hyperlink{structpath_aefc5432c194329b373245f6024405197}{dir}}
+\begin{DoxyCompactList}\small\item\em Sequence of nested directories leading to file location. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{structpath_a90b4e69e79ffcab58317188012e7da1f}{name}}
+\begin{DoxyCompactList}\small\item\em File name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An absolute path struct type. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structpath_aefc5432c194329b373245f6024405197}\label{structpath_aefc5432c194329b373245f6024405197}} 
+\index{path@{path}!dir@{dir}}
+\index{dir@{dir}!path@{path}}
+\doxysubsubsection{\texorpdfstring{dir}{dir}}
+{\footnotesize\ttfamily char$\ast$$\ast$ path\+::dir}
+
+
+
+Sequence of nested directories leading to file location. 
+
+A NULL pointer follows the last entry. In particular, if the first entry is NULL we are in the root directory. \mbox{\Hypertarget{structpath_a90b4e69e79ffcab58317188012e7da1f}\label{structpath_a90b4e69e79ffcab58317188012e7da1f}} 
+\index{path@{path}!name@{name}}
+\index{name@{name}!path@{path}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char$\ast$ path\+::name}
+
+
+
+File name. 
+
+Only NULL to indicate the empty path, i.\+e. the path to the root directory. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{filesys_8c}{filesys.\+c}}\end{DoxyCompactItemize}

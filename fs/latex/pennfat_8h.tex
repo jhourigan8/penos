@@ -1,0 +1,306 @@
+\hypertarget{pennfat_8h}{}\doxysection{pennfat.\+h File Reference}
+\label{pennfat_8h}\index{pennfat.h@{pennfat.h}}
+
+
+Filesystem related shell commands.  
+
+
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{pennfat_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{pennfat_8h_a89ca2da3a9f75c37a7e2adca01d22650}{pf\+\_\+mkfs}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Makes a filesystem in the current directory on the host machine. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_aa8b02889227b9d4af5554272fdc7ec04}{pf\+\_\+mount}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Mount a filesystem. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_ae6247be71b9a646a221c2ea18dfc33e1}{pf\+\_\+umount}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Unmount currently mounted filesystem. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_aa5ef7cf9b04dddf5e873b65e3fda50a4}{pf\+\_\+touch}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em For each input file, update its timestamp or create it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a102878c1cc3cbfc9ce529a78360b7438}{pf\+\_\+rm}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Remove each input file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a8b024f3508da772a59b267ac904e2cbd}{pf\+\_\+mv}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Renames source to dest or moves source into dest if dest is a directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_aff83dcd8dfe46b5d9a6aea36db3bbf73}{pf\+\_\+cp}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Copies source to dest, each possibly on the host machine. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a21a9c4ce21251c182a062256ccdbd7dd}{pf\+\_\+cat}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Read from a list of files or write to one file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a46b2b33b03fbd50c02f5b214a8aac80d}{pf\+\_\+ls}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em List the files in a directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_ad0c1fa4f56310abb1142c4ad59316bc8}{pf\+\_\+chmod}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Change the permissions of a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a4739cb51447559a087f678f039e4432e}{pf\+\_\+cd}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Change the current working directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_aaf841913a6366ef3ed259a72b6783b8c}{pf\+\_\+mkdir}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Make a directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a0e03ff76f6de53a052cf83d64dc03307}{pf\+\_\+rmdir}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Remove a directory. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{pennfat_8h_aacde6b8a4bcb0c6e0491a2887ae2357b}\label{pennfat_8h_aacde6b8a4bcb0c6e0491a2887ae2357b}} 
+void \mbox{\hyperlink{pennfat_8h_aacde6b8a4bcb0c6e0491a2887ae2357b}{pf\+\_\+pwd}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Print the current working directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{pennfat_8h_a29e73b6b5a4e87239cd7b80004624d3a}{pf\+\_\+ln}} (int argc, char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em Create a link to a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Filesystem related shell commands. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{pennfat_8h_a21a9c4ce21251c182a062256ccdbd7dd}\label{pennfat_8h_a21a9c4ce21251c182a062256ccdbd7dd}} 
+\index{pennfat.h@{pennfat.h}!pf\_cat@{pf\_cat}}
+\index{pf\_cat@{pf\_cat}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_cat()}{pf\_cat()}}
+{\footnotesize\ttfamily void pf\+\_\+cat (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Read from a list of files or write to one file. 
+
+With the -\/a flag cat appends to a file. With the -\/w flag cat writes to a file. Following the flag is a single file which is written to. Without a flag cat writes to STDOUT. If there are no files preceding the flag cat reads from STDIN. If there are files preceding the flag cat reads them in order. All links are followed. Cat prints an error if the user tries to read from STDIN and write to STDOUT, either source or dest is a directory, a source file doesn\textquotesingle{}t exist, or if a directory along the path to the destination file doesn\textquotesingle{}t exist.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}i\mbox{]}} & Optional list of source files to read from. \\
+\hline
+{\em args\mbox{[}argc-\/2\mbox{]}} & Optional append/write flag. \\
+\hline
+{\em args\mbox{[}argc-\/1\mbox{]}} & Optional output file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a4739cb51447559a087f678f039e4432e}\label{pennfat_8h_a4739cb51447559a087f678f039e4432e}} 
+\index{pennfat.h@{pennfat.h}!pf\_cd@{pf\_cd}}
+\index{pf\_cd@{pf\_cd}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_cd()}{pf\_cd()}}
+{\footnotesize\ttfamily void pf\+\_\+cd (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Change the current working directory. 
+
+If the path does not lead to a directory cd prints an error. Dot and dot-\/dot supported.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Absolute or relative path to a directory. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_ad0c1fa4f56310abb1142c4ad59316bc8}\label{pennfat_8h_ad0c1fa4f56310abb1142c4ad59316bc8}} 
+\index{pennfat.h@{pennfat.h}!pf\_chmod@{pf\_chmod}}
+\index{pf\_chmod@{pf\_chmod}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_chmod()}{pf\_chmod()}}
+{\footnotesize\ttfamily void pf\+\_\+chmod (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Change the permissions of a file. 
+
+Can add/remove one of read/write/execute on a file. Links are always followed. Prints an error if the permissions modifier is invalid or if the file cannot be found.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args$<$a} & href=\char`\"{}+/-\/\char`\"{}$>$1(r/w/x) permissions modifier. \\
+\hline
+{\em args\mbox{[}2\mbox{]}} & File to change permissions of. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_aff83dcd8dfe46b5d9a6aea36db3bbf73}\label{pennfat_8h_aff83dcd8dfe46b5d9a6aea36db3bbf73}} 
+\index{pennfat.h@{pennfat.h}!pf\_cp@{pf\_cp}}
+\index{pf\_cp@{pf\_cp}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_cp()}{pf\_cp()}}
+{\footnotesize\ttfamily void pf\+\_\+cp (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Copies source to dest, each possibly on the host machine. 
+
+If source doesn\textquotesingle{}t exist prints an error. If a directory on the path to dest doesn\textquotesingle{}t exist prints an error. If source is a directory prints an error. All links are followed. Up to one -\/h flag is allowed. If dest is a directory, we instead set dest = path\+\_\+to\+\_\+dest/name\+\_\+of\+\_\+source and follow the above rules effectively copying source into dest.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Source file, possibly with preceding -\/h flag. \\
+\hline
+{\em args\mbox{[}2\mbox{]}} & Destination file, possibly with preceding -\/h flag. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a29e73b6b5a4e87239cd7b80004624d3a}\label{pennfat_8h_a29e73b6b5a4e87239cd7b80004624d3a}} 
+\index{pennfat.h@{pennfat.h}!pf\_ln@{pf\_ln}}
+\index{pf\_ln@{pf\_ln}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_ln()}{pf\_ln()}}
+{\footnotesize\ttfamily void pf\+\_\+ln (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Create a link to a file. 
+
+Only symbolic links are supported. Target file doesn\textquotesingle{}t need to exist. If link name already exists as a file prints an error. If a directory on the link name path doesn\textquotesingle{}t exist prints an error.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Mandatory symbolic {\ttfamily -\/s} flag. \\
+\hline
+{\em args\mbox{[}2\mbox{]}} & Target file. \\
+\hline
+{\em args\mbox{[}3\mbox{]}} & Link name. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a46b2b33b03fbd50c02f5b214a8aac80d}\label{pennfat_8h_a46b2b33b03fbd50c02f5b214a8aac80d}} 
+\index{pennfat.h@{pennfat.h}!pf\_ls@{pf\_ls}}
+\index{pf\_ls@{pf\_ls}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_ls()}{pf\_ls()}}
+{\footnotesize\ttfamily void pf\+\_\+ls (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+List the files in a directory. 
+
+Without an argument ls lists files in the current directory. With an absolute or relative path ls lists files in that directory. If the argument does not lead to a directory ls prints an error.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Optional absolute or relative path to a directory. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_aaf841913a6366ef3ed259a72b6783b8c}\label{pennfat_8h_aaf841913a6366ef3ed259a72b6783b8c}} 
+\index{pennfat.h@{pennfat.h}!pf\_mkdir@{pf\_mkdir}}
+\index{pf\_mkdir@{pf\_mkdir}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_mkdir()}{pf\_mkdir()}}
+{\footnotesize\ttfamily void pf\+\_\+mkdir (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Make a directory. 
+
+Any number of arguments supported. If the file exists an error is printed. If a directory along the path doesn\textquotesingle{}t exist an error is printed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}i\mbox{]}} & Absolute or relative path to a directory. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a89ca2da3a9f75c37a7e2adca01d22650}\label{pennfat_8h_a89ca2da3a9f75c37a7e2adca01d22650}} 
+\index{pennfat.h@{pennfat.h}!pf\_mkfs@{pf\_mkfs}}
+\index{pf\_mkfs@{pf\_mkfs}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_mkfs()}{pf\_mkfs()}}
+{\footnotesize\ttfamily void pf\+\_\+mkfs (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Makes a filesystem in the current directory on the host machine. 
+
+Prints an error on malformed input.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Name of the filesystem. \\
+\hline
+{\em args\mbox{[}2\mbox{]}} & Number of blocks in the FAT, from 1-\/32. \\
+\hline
+{\em args\mbox{[}3\mbox{]}} & Block size config, from 0-\/4. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_aa8b02889227b9d4af5554272fdc7ec04}\label{pennfat_8h_aa8b02889227b9d4af5554272fdc7ec04}} 
+\index{pennfat.h@{pennfat.h}!pf\_mount@{pf\_mount}}
+\index{pf\_mount@{pf\_mount}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_mount()}{pf\_mount()}}
+{\footnotesize\ttfamily void pf\+\_\+mount (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Mount a filesystem. 
+
+Sets {\ttfamily pwd} and {\ttfamily mounted} variables appropriately. Prints an error if another filesystem is already mounted.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Name of the filesystem. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a8b024f3508da772a59b267ac904e2cbd}\label{pennfat_8h_a8b024f3508da772a59b267ac904e2cbd}} 
+\index{pennfat.h@{pennfat.h}!pf\_mv@{pf\_mv}}
+\index{pf\_mv@{pf\_mv}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_mv()}{pf\_mv()}}
+{\footnotesize\ttfamily void pf\+\_\+mv (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Renames source to dest or moves source into dest if dest is a directory. 
+
+If source doesn\textquotesingle{}t exist an error is printed. If a directory in the path to dest doesn\textquotesingle{}t exist an error is printed. If dest doesn\textquotesingle{}t exist simply renames source to dest. If dest is a file and source is a directory throws an error. If dest and source are files removes dest\textquotesingle{}s data and then renames source to dest. If dest is a link it is NOT followed. If dest is a directory, we instead set dest = path\+\_\+to\+\_\+dest/name\+\_\+of\+\_\+source and follow the above rules effectively moving source into dest.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}1\mbox{]}} & Source file. \\
+\hline
+{\em args\mbox{[}2\mbox{]}} & Destination file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a102878c1cc3cbfc9ce529a78360b7438}\label{pennfat_8h_a102878c1cc3cbfc9ce529a78360b7438}} 
+\index{pennfat.h@{pennfat.h}!pf\_rm@{pf\_rm}}
+\index{pf\_rm@{pf\_rm}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_rm()}{pf\_rm()}}
+{\footnotesize\ttfamily void pf\+\_\+rm (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Remove each input file. 
+
+Takes any number of inputs. Will remove regular files and links but prints an error if input file is a directory. If input is a link removes the link and not the target file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}i\mbox{]}} & Name of file to remove. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_a0e03ff76f6de53a052cf83d64dc03307}\label{pennfat_8h_a0e03ff76f6de53a052cf83d64dc03307}} 
+\index{pennfat.h@{pennfat.h}!pf\_rmdir@{pf\_rmdir}}
+\index{pf\_rmdir@{pf\_rmdir}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_rmdir()}{pf\_rmdir()}}
+{\footnotesize\ttfamily void pf\+\_\+rmdir (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Remove a directory. 
+
+Any number of arguments supported. If the file doesn\textquotesingle{}t exist or is not a directory an error is printed. If the directory is not empty an error is printed. Links are not followed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}i\mbox{]}} & Absolute or relative path to a directory. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_aa5ef7cf9b04dddf5e873b65e3fda50a4}\label{pennfat_8h_aa5ef7cf9b04dddf5e873b65e3fda50a4}} 
+\index{pennfat.h@{pennfat.h}!pf\_touch@{pf\_touch}}
+\index{pf\_touch@{pf\_touch}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_touch()}{pf\_touch()}}
+{\footnotesize\ttfamily void pf\+\_\+touch (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+For each input file, update its timestamp or create it. 
+
+Takes any number of inputs. If file doesn\textquotesingle{}t exist creates it as a regular file. If file is regular or a directory updates its timestamp. If file is a link the file it points to is touched instead. In particular, if the file the link points to doesn\textquotesingle{}t exist it is created. Prints if a directory along the path specified doesn\textquotesingle{}t exist.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args\mbox{[}i\mbox{]}} & Name of file to touch. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{pennfat_8h_ae6247be71b9a646a221c2ea18dfc33e1}\label{pennfat_8h_ae6247be71b9a646a221c2ea18dfc33e1}} 
+\index{pennfat.h@{pennfat.h}!pf\_umount@{pf\_umount}}
+\index{pf\_umount@{pf\_umount}!pennfat.h@{pennfat.h}}
+\doxysubsubsection{\texorpdfstring{pf\_umount()}{pf\_umount()}}
+{\footnotesize\ttfamily void pf\+\_\+umount (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
+
+
+
+Unmount currently mounted filesystem. 
+
+Resets {\ttfamily mounted} to false. Prints an error if no filesystem is currently mounted. 
